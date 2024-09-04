@@ -1,0 +1,6 @@
+{
+  "samples": "samples/http_samples.json",
+  "webhook_url": "https://ingest.us1.sentinelone.net/services/collector/raw?sourcetype=json",
+  "output_size": "2KB",
+  "time_range": "1m"
+}
