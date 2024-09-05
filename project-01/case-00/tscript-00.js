@@ -8,7 +8,7 @@ let date = new Date();
 if (HTTP) {
     // Create a JSON object with all relevant transaction data fields
     var jsonData = {
-        "timestamp": date.toISOString(),        // Transaction timestamp in ISO format
+        // "timestamp": date.toISOString(),        // Transaction timestamp in ISO format
         "message": "Hello Work!"                // Hello Work! 
     };
 
