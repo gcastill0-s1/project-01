@@ -54,9 +54,9 @@ if (HTTP) {
     // HTTP.roundTripTime is not valid on HTTP_REQUEST
     if (HTTP.roundTripTime) {
         jsonData["duration"] = HTTP.roundTripTime;              // Transaction duration
-
     }
 
+    // XSS may not exist on all HTTP_REQUEST records
     if (HTTP.xss) {
         jsonData["xss"] = HTTP.xss;                             // An array of suspicious HTTP request fragments
     }
