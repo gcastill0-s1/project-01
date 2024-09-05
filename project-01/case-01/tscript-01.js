@@ -1,5 +1,5 @@
 // s1_ODS_target is configured as a target for an Open Data Stream
-const s1_path = "/services/collector/event?sourcetype=extrahop"
+const s1_path = "/services/collector/raw?sourcetype=extrahop"
 const date = new Date();
 
 // Check if the event is HTTP_REQUEST to capture transaction data
