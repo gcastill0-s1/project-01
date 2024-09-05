@@ -2,7 +2,8 @@
 const s1_path = "/services/collector/raw?sourcetype=extrahop"
 const date = new Date();
 
-// Check if the event is HTTP_REQUEST to capture transaction data
+// Check if the event is HTTP_REQUEST or HTTP_RESPONSE to capture transaction data
+
 if (HTTP) {
     // Create a JSON object with all relevant transaction data fields
     var jsonData = {
@@ -12,14 +13,27 @@ if (HTTP) {
         "server_ip": HTTP.host.toString(),                      // Server IP address
         "method": HTTP.method,                                  // HTTP method (GET, POST, etc.)
         "uri": HTTP.uri,                                        // URI accessed
-        "response_code": HTTP.statusCode,                       // HTTP response code
-        "duration": HTTP.roundTripTime,                         // Transaction duration
         "request_headers": HTTP.findHeaders("Request"),         // HTTP request headers
         "response_headers": HTTP.findHeaders("Response"),       // HTTP response headers
         "user_agent": HTTP.userAgent,                           // User agent string
         "content_type": HTTP.findHeaders("Content-"),           // Response content type
-        "referrer": HTTP.referer                                // Referer if specified
+        "referrer": HTTP.referer,                               // Referer if specified
     };
+
+    // HTTP.statusCode is not valid on HTTP_REQUEST
+    if (HTTP.statusCode) {
+        jsonData["response_code"] = HTTP.statusCode;            // HTTP response code
+    }
+
+    // HTTP.roundTripTime is not valid on HTTP_REQUEST
+    if (HTTP.roundTripTime) {
+        jsonData["duration"] = HTTP.roundTripTime;              // Transaction duration
+
+    }
+
+    if (HTTP.xss) {
+        jsonData["xss"] = HTTP.xss;                             // An array of suspicious HTTP request fragments
+    }
 
     // Convert the JSON object to a string
     var jsonString = JSON.stringify(jsonData);
