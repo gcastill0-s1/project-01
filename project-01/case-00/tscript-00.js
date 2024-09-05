@@ -1,4 +1,5 @@
 // s1_ODS_target is configured as a target for an Open Data Stream
+const s1_path = "/services/collector/event?sourcetype=extrahop"
 
 // Define the webhook URL where the JSON data will be sent
 let date = new Date();
@@ -16,6 +17,7 @@ if (HTTP) {
 
     // Send the JSON data to the webhook URL using an HTTP POST request
     Remote.HTTP("s1_ODS_target").post({
+        path: s1_path,
         payload: jsonString
     });
 
