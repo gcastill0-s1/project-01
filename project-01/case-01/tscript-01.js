@@ -39,9 +39,9 @@ if (HTTP) {
     var jsonString = JSON.stringify(jsonData);
 
     // Send the JSON data to the webhook URL using an HTTP POST request
-    Remote.HTTP("s1_ODS_target").post({
-        path: s1_path,
-        payload: jsonString
+    Remote.HTTP('s1_ODS_target').post({
+        'path': s1_path,
+        'payload': jsonString
     });
 
 }
