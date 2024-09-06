@@ -17,7 +17,7 @@ Below is a step-by-step example that shows how to configure a trigger to capture
 3. **Configure Trigger Details:**
    - **Name:** Give your trigger a descriptive name, e.g., "Export Protocol-Specific Data to Webhook."
    - **Description:** Optionally, add a description of what the trigger does.
-   - **Event:** Choose relevant protocol events you want to monitor. For example, you might select `HTTP_REQUEST`.
+   - **Event:** Choose relevant protocol events you want to monitor `HTTP_REQUEST`.
 
 ### Step 3: Write the Trigger Script
 
