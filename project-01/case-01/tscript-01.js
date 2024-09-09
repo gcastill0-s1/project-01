@@ -7,7 +7,7 @@ const date = new Date();
 if (HTTP) {
     // Create a JSON object with all relevant transaction data fields
     var jsonData = {
-        "timestamp": date.toISOString(),                        // Transaction timestamp in ISO format
+        // "timestamp": date.toISOString(),                        // Transaction timestamp in ISO format
         "protocol": HTTP.encryptionProtocol,                    // Determine the protocol
         "client_ip": HTTP.origin.toString(),                    // Client IP address
         "server_ip": HTTP.host.toString(),                      // Server IP address
