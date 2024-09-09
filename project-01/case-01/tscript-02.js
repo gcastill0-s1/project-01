@@ -11,9 +11,13 @@ if (HTTP) {
     var jsonString = JSON.stringify(jsonData);
 
     // Send the JSON data to the webhook URL using an HTTP POST request
-    Remote.HTTP('s1_ODS_target').post({
-        'path' : s1_path,
-        'payload' : jsonString
-    });
-
+    try {
+        Remote.HTTP('s1_ODS_target').post({
+            'path': s1_path,
+            'payload': jsonString
+        });
+    } catch (e) {
+        // Log the error to the ExtraHop debug log
+        debug(e);
+    }
 }
