@@ -34,19 +34,23 @@ let date = new Date();
 if (HTTP) {
     // Create a JSON object with all relevant transaction data fields
     var jsonData = {
-      //   "timestamp": date.toISOString(),        // Transaction timestamp in ISO format
-        "message": "Hello Sentinel!"               // Hello World! 
+        // "timestamp": date.toISOString(),        // Transaction timestamp in ISO format
+        "message": "Hello Work!"                // Hello Work! 
     };
 
     // Convert the JSON object to a string
     var jsonString = JSON.stringify(jsonData);
 
     // Send the JSON data to the webhook URL using an HTTP POST request
-    Remote.HTTP("s1_ODS_target").post({
-        'path': s1_path,
-        'payload': jsonString
-    });
-
+    try {
+        Remote.HTTP('s1_ODS_target').post({
+            'path': s1_path,
+            'payload': jsonString
+        });
+    } catch (e) {
+        // Log the error to the ExtraHop debug log
+        debug(e);
+    }
 }
 ```
 
