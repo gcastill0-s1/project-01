@@ -1,9 +1,8 @@
 // s1_ODS_target is configured as a target for an Open Data Stream
 const s1_path = "/services/collector/raw?sourcetype=extrahop"
 
-// Check if the event is HTTP_REQUEST or HTTP_RESPONSE to capture transaction data
-
-if (event === "HTTP_REQUEST") {
+// Check if the event is HTTP_RESPONSE to capture transaction data
+if (event === "HTTP_RESPONSE") {
     // Create a JSON object with all relevant transaction data fields
     var jsonData = {
         "protocol": HTTP.encryptionProtocol,                    // Determine the protocol
@@ -17,6 +16,16 @@ if (event === "HTTP_REQUEST") {
         "content_type": HTTP.findHeaders("Content-"),           // Response content type
         "referrer": HTTP.referer,                               // Referer if specified
     };
+
+    // HTTP.statusCode is not valid on HTTP_REQUEST
+    if (HTTP.statusCode) {
+        jsonData["response_code"] = HTTP.statusCode;            // HTTP response code
+    }
+
+    // HTTP.roundTripTime is not valid on HTTP_REQUEST
+    if (HTTP.roundTripTime) {
+        jsonData["duration"] = HTTP.roundTripTime;              // Transaction duration
+    }
 
     if (HTTP.xss) {
         jsonData["xss"] = HTTP.xss;                             // An array of suspicious HTTP request fragments

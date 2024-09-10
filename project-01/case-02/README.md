@@ -17,7 +17,7 @@ Below is a step-by-step example that shows how to configure a trigger to capture
 3. **Configure Trigger Details:**
    - **Name:** Give your trigger a descriptive name, e.g., "Export Protocol-Specific Data to Webhook."
    - **Description:** Optionally, add a description of what the trigger does.
-   - **Event:** Choose relevant protocol events you want to monitor. For example, you might select `HTTP_REQUEST`, `DNS_REQUEST`, and `SSL_HANDSHAKE_COMPLETE`.
+   - **Event:** Choose relevant protocol events you want to monitor. Select `SSL_OPEN`.
 
 ### Step 3: Write the Trigger Script
 
@@ -29,7 +29,7 @@ const s1_path = "/services/collector/raw?sourcetype=extrahop"
 
 // Check if the event is HTTP_REQUEST or HTTP_RESPONSE to capture transaction data
 
-if (SSL) {
+if (event === "SSL_OPEN") {
     // Create a JSON object with full record
     var jsonData = SSL.record;
 
