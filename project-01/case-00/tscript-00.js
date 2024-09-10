@@ -1,9 +1,6 @@
 // s1_ODS_target is configured as a target for an Open Data Stream
 const s1_path = "/services/collector/raw?sourcetype=extrahop"
 
-// Define the webhook URL where the JSON data will be sent
-let date = new Date();
-
 // Check if the event is HTTP_REQUEST send hello world
 if (HTTP) {
     // Create a JSON object with all relevant transaction data fields
