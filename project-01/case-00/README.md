@@ -17,19 +17,19 @@ Below is a step-by-step example that shows how to configure a trigger to capture
 3. **Configure Trigger Details:**
    - **Name:** Give your trigger a descriptive name, e.g., "Export Protocol-Specific Data to Webhook."
    - **Description:** Optionally, add a description of what the trigger does.
-   - **Event:** Choose relevant protocol events you want to monitor. For example, you might select `HTTP_REQUEST`.
+   - **Event:** Choose relevant protocol events you want to monitor. Please select `TIMER_30SEC` and `REMOTE_RESPONSE`.
 
 ### Step 3: Write the Trigger Script
 
 Here’s an example trigger script that captures data for HTTP and sends this data to a webhook in JSON format:
 
 ```javascript
-// s1_ODS_target is configured as a target for an Open Data Stream
+// Define the webhook URL where the JSON data will be sent
 const s1_path = "/services/collector/raw?sourcetype=extrahop"
 
-// Check if the event is HTTP_REQUEST send hello world
-if (HTTP) {
-    // Create a JSON object with all relevant transaction data fields
+// Check if the event is TIMER_30SEC send hello world
+if (event === 'TIMER_30SEC') {
+
     var jsonData = {
         "message": "Hello Work!"                // Hello Work! 
     };
@@ -38,15 +38,17 @@ if (HTTP) {
     var jsonString = JSON.stringify(jsonData);
 
     // Send the JSON data to the webhook URL using an HTTP POST request
-    try {
-        Remote.HTTP('s1_ODS_target').post({
-            'path': s1_path,
-            'payload': jsonString
-        });
-    } catch (e) {
-        // Log the error to the ExtraHop debug log
-        debug(e);
-    }
+    Remote.HTTP("s1_ODS_target").post({
+        "path": s1_path,
+        "payload": jsonString
+    });
+}
+
+// If there is a response to the Remote.HTTP via REMOTE_RESPONSE
+if (event === 'REMOTE_RESPONSE') {
+    var rsp_body;
+    if (Remote.response.body) { rsp_body = Remote.response.body.toString() }
+    debug("Status Code: " + Remote.response.statusCode.toString() + "\n" + rsp_body)
 }
 ```
 
