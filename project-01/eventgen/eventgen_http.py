@@ -65,7 +65,7 @@ def generate_event(sample, config):
     # Convert the dictionary to a JSON string
     final_event = json.dumps(json_data)
 
-    print(final_event)
+    # print(final_event)
 
     return final_event
 
@@ -90,6 +90,7 @@ def dispatch_event(event, config):
 def parse_size(size_str):
     units = {"B": 1, "KB": 1024, "MB": 1024**2, "GB": 1024**3, "PB": 1024**4}
     size, unit = size_str[:-2], size_str[-2:]
+    print("Looking for size: ", int(size) * units[unit])
     return int(size) * units[unit]
 
 def parse_time_range(time_range):
