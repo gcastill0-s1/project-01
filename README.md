@@ -10,3 +10,7 @@
 | --- | --- |
 | host  | ingest.us1.sentinelone.net    |
 | Headers | "headers" : { <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Content-Type" : ["application/json"], <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Authorization" : ["Bearer  authToken"]<br>}    |
+
+4. Configure Extra Headers
+
+"Authorization: Bearer authToken"
