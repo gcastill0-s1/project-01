@@ -14,3 +14,15 @@
 4. Configure Extra Headers
 
 "Authorization: Bearer authToken"
+
+### Example two
+
+```json
+{
+    "path": "/services/collector/raw?sourcetype=extrahop",
+    "headers": {
+        "Content-Type" : ["application/json"],
+        "Authorization" : ["Bearer authToken"]
+    }
+}
+```
