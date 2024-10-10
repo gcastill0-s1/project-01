@@ -29,28 +29,27 @@ if ( event === HTTP_REQUEST ) {
 
   // Send the JSON data to the webhook URL using an HTTP POST request
   Remote.HTTP( SENTINELONE_ODS_TARGET ).post({
-    path: SENTINELONE_PATH,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+    'path': SENTINELONE_PATH,
+    'headers': {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
     },
-    payload: jsonString,
-    context: {
-      action: CONTEXT,
+    'payload': jsonString,
+    'context': {
+        'action': CONTEXT,
     },
-    enableResponseEvent: true,
+    'enableResponseEvent': true,
   });
-} else if (event === "REMOTE_RESPONSE") {
-  var rsp = Remote.response,
-    rspStatus = rsp.status || '',
-    rspBody = rsp.body || '',
-    rspHeaders = rsp.headers || '',
-    rspTime = rsp.time || '',
-    rspError = rsp.error|| '';
 
-  if (context instanceof Object && context.action === CONTEXT) {
-    debug(
-      `version: ${version} | statusCode: ${rspStatus} | responseTime: ${rspTime} | responseHeaders: ${rspHeaders} | responseBody: ${rspBody}`
-    );
+  debug(`version: ${version} | Sent test payload to SentinelOne`);
+
+} else if ( event === 'REMOTE_RESPONSE' ) {
+  var rsp = Remote.response,
+      rspStatus = rsp.statusCode || null,
+      rspBody = rsp.body ? rsp.body.toString() : null,
+      rspContext = rsp.context || null;
+
+  if ( rspContext instanceof Object && rspContext.action === CONTEXT ) {
+    debug(`version: ${version} | statusCode: ${rspStatus} | responseContext: ${rspContext} | responseBody: ${rspBody}`);
   }
 }
