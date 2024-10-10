@@ -8,16 +8,16 @@ const SENTINELONE_PATH = "/services/collector/raw?sourcetype=extrahop";
 if ( event === HTTP_REQUEST ) {
   // Create a JSON object with all relevant transaction data fields
   var jsonData = {
-    protocol: HTTP.encryptionProtocol, // Determine the protocol
-    client_ip: HTTP.origin.toString(), // Client IP address
-    server_ip: HTTP.host.toString(), // Server IP address
-    method: HTTP.method, // HTTP method (GET, POST, etc.)
-    uri: HTTP.uri, // URI accessed
-    request_headers: HTTP.findHeaders("Request"), // HTTP request headers
+    protocol: HTTP.encryptionProtocol,              // Determine the protocol
+    client_ip: HTTP.origin.toString(),              // Client IP address
+    server_ip: HTTP.host.toString(),                // Server IP address
+    method: HTTP.method,                            // HTTP method (GET, POST, etc.)
+    uri: HTTP.uri,                                  // URI accessed
+    request_headers: HTTP.findHeaders("Request"),   // HTTP request headers
     response_headers: HTTP.findHeaders("Response"), // HTTP response headers
-    user_agent: HTTP.userAgent, // User agent string
-    content_type: HTTP.findHeaders("Content-"), // Response content type
-    referrer: HTTP.referer, // Referer if specified
+    user_agent: HTTP.userAgent,                     // User agent string
+    content_type: HTTP.findHeaders("Content-"),     // Response content type
+    referrer: HTTP.referer                          // Referer if specified
   };
 
   if (HTTP.xss) {
