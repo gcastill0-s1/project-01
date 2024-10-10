@@ -1,8 +1,10 @@
 // s1_ODS_target is configured as a target for an Open Data Stream
-const s1_path = "/services/collector/raw?sourcetype=extrahop";
+const SETNINELONE_ODS_TARGET = "s1_ODS_target";
+const CONTEXT = "SentinelOne Test";
+const SETNINELONE_PATH = "/services/collector/raw?sourcetype=extrahop";
 
 // Check if the event is HTTP_RESPONSE to capture transaction data
-if (event === HTTP_RESPONSE) {
+if (event === HTTP_REQUEST) {
   // Create a JSON object with full record
   var jsonData = HTTP.record;
 
@@ -10,8 +12,30 @@ if (event === HTTP_RESPONSE) {
   var jsonString = JSON.stringify(jsonData);
 
   // Send the JSON data to the webhook URL using an HTTP POST request
-  Remote.HTTP("s1_ODS_target").post({
-    path: s1_path,
-    payload: jsonString,
+  Remote.HTTP(SETNINELONE_ODS_TARGET).post({
+    'path': SETNINELONE_PATH,
+    'headers': {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+    },
+    'payload': jsonString,
+    'context': {
+        'action': CONTEXT,
+    },
+    'enableResponseEvent': true,
   });
+
+  debug(`version: ${version} | Sent test payload to SentinelOne`);
+
+} else if ( event === 'REMOTE_RESPONSE' ) {
+  var rsp = Remote.response,
+      rspStatus = rsp.status,
+      rspBody = rsp.body,
+      rspHeaders = rsp.headers,
+      rspTime = rsp.time,
+      rspError = rsp.error;
+
+  if ( context instanceof Object && context.action === CONTEXT) {
+    debug(`version: ${version} | statusCode: ${rspStatus} | responseTime: ${rspTime} | responseHeaders: ${rspHeaders} | responseBody: ${rspBody}`);
+  }
 }
