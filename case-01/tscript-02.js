@@ -42,11 +42,11 @@ if ( event === HTTP_REQUEST ) {
   });
 } else if (event === "REMOTE_RESPONSE") {
   var rsp = Remote.response,
-    rspStatus = rsp.status,
-    rspBody = rsp.body,
-    rspHeaders = rsp.headers,
-    rspTime = rsp.time,
-    rspError = rsp.error;
+    rspStatus = rsp.status || '',
+    rspBody = rsp.body || '',
+    rspHeaders = rsp.headers || '',
+    rspTime = rsp.time || '',
+    rspError = rsp.error|| '';
 
   if (context instanceof Object && context.action === CONTEXT) {
     debug(
