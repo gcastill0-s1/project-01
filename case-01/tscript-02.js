@@ -1,7 +1,7 @@
 // s1_ODS_target is configured as a target for an Open Data Stream
-const SETNINELONE_ODS_TARGET = "s1_ODS_target";
+const SENTINELONE_ODS_TARGET = "s1_ODS_target";
 const CONTEXT = "SentinelOne Test";
-const SETNINELONE_PATH = "/services/collector/raw?sourcetype=extrahop";
+const SENTINELONE_PATH = "/services/collector/raw?sourcetype=extrahop";
 
 // Check if the event is HTTP_REQUEST to capture transaction data
 
@@ -28,28 +28,29 @@ if (event === HTTP_REQUEST) {
   var jsonString = JSON.stringify(jsonData);
 
   // Send the JSON data to the webhook URL using an HTTP POST request
-  Remote.HTTP(SETNINELONE_ODS_TARGET).post({
-    'path': SETNINELONE_PATH,
-    'headers': {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
+  Remote.HTTP(SENTINELONE_ODS_TARGET).post({
+    path: SENTINELONE_PATH,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
     },
-    'payload': jsonString,
-    'context': {
-        'action': CONTEXT,
+    payload: jsonString,
+    context: {
+      action: CONTEXT,
     },
-    'enableResponseEvent': true,
+    enableResponseEvent: true,
   });
-} else if ( event === 'REMOTE_RESPONSE' ) {
+} else if (event === "REMOTE_RESPONSE") {
   var rsp = Remote.response,
-      rspStatus = rsp.status,
-      rspBody = rsp.body,
-      rspHeaders = rsp.headers,
-      rspTime = rsp.time,
-      rspError = rsp.error;
+    rspStatus = rsp.status,
+    rspBody = rsp.body,
+    rspHeaders = rsp.headers,
+    rspTime = rsp.time,
+    rspError = rsp.error;
 
-  if ( context instanceof Object && context.action === CONTEXT) {
-    debug(`version: ${version} | statusCode: ${rspStatus} | responseTime: ${rspTime} | responseHeaders: ${rspHeaders} | responseBody: ${rspBody}`);
+  if (context instanceof Object && context.action === CONTEXT) {
+    debug(
+      `version: ${version} | statusCode: ${rspStatus} | responseTime: ${rspTime} | responseHeaders: ${rspHeaders} | responseBody: ${rspBody}`
+    );
   }
 }
-
