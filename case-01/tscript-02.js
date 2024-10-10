@@ -5,7 +5,7 @@ const SENTINELONE_PATH = "/services/collector/raw?sourcetype=extrahop";
 
 // Check if the event is HTTP_REQUEST to capture transaction data
 
-if (event === HTTP_REQUEST) {
+if ( event === HTTP_REQUEST ) {
   // Create a JSON object with all relevant transaction data fields
   var jsonData = {
     protocol: HTTP.encryptionProtocol, // Determine the protocol
@@ -28,7 +28,7 @@ if (event === HTTP_REQUEST) {
   var jsonString = JSON.stringify(jsonData);
 
   // Send the JSON data to the webhook URL using an HTTP POST request
-  Remote.HTTP(SENTINELONE_ODS_TARGET).post({
+  Remote.HTTP( SENTINELONE_ODS_TARGET ).post({
     path: SENTINELONE_PATH,
     headers: {
       Accept: "application/json",
