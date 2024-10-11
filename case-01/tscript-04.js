@@ -2,7 +2,9 @@
 const s1_path = "/services/collector/raw?sourcetype=extrahop"
 
 // Check if the event is HTTP_RESPONSE to capture transaction data
-if (event === "HTTP_RESPONSE") {
+// Note: the HTTP_RESPONSE uses HTTP.record to capture transaction
+
+if ( event === 'HTTP_RESPONSE' ) {
     // Create a JSON object with all relevant transaction data fields
     var jsonData = {
         "protocol": HTTP.encryptionProtocol,                    // Determine the protocol
@@ -34,9 +36,29 @@ if (event === "HTTP_RESPONSE") {
     // Convert the JSON object to a string
     var jsonString = JSON.stringify(jsonData);
 
-    // Send the JSON data to the webhook URL using an HTTP POST request
-    Remote.HTTP('s1_ODS_target').post({
-        'path' : s1_path,
-        'payload' : jsonString
-    });
+  // Send the JSON data to the webhook URL using an HTTP POST request
+  Remote.HTTP( SENTINELONE_ODS_TARGET ).post({
+    'path': SENTINELONE_PATH,
+    'headers': {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+    },
+    'payload': jsonString,
+    'context': {
+        'action': CONTEXT,
+    },
+    'enableResponseEvent': true,
+  });
+
+  debug(`version: ${version} | Sent test payload to SentinelOne`);
+
+} else if ( event === 'REMOTE_RESPONSE' ) {
+  var rsp = Remote.response,
+      rspStatus = rsp.statusCode || null,
+      rspBody = rsp.body ? rsp.body.toString() : null,
+      rspContext = rsp.context || null;
+
+  if ( rspContext instanceof Object && rspContext.action === CONTEXT ) {
+    debug(`version: ${version} | statusCode: ${rspStatus} | responseContext: ${rspContext} | responseBody: ${rspBody}`);
+  }
 }

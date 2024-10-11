@@ -4,6 +4,7 @@ const CONTEXT = "SentinelOne Test";
 const SENTINELONE_PATH = "/services/collector/raw?sourcetype=extrahop";
 
 // Check if the event is HTTP_REQUEST to capture transaction data
+// Note: the HTTP_REQUEST uses HTTP.commitRecord to capture transaction
 
 if ( event === HTTP_REQUEST ) {
   // Create a JSON object with all relevant transaction data fields
